@@ -34,5 +34,4 @@ Runs on Linux. Deployable on Raspberry Pi 4 (4GB+). No GPU required.
 
 ---
 
-*Built by Rushda Jagtap — First Year B.Tech CSE (Data Science), MITAOE Pune*
-*Niche: Cyber Adversarial Analytics*
+*Rushda Jagtap — First Year B.Tech CSE (Data Science), MITAOE*
