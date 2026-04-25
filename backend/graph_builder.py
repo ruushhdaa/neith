@@ -137,7 +137,7 @@ def build_graph(flow_store: FlowStore, ip_index: IPIndex) -> Optional[Data]:
         return None
 
     num_nodes = ip_index.size
-    x = torch.zeros(num_nodes, 16)
+    x = torch.zeros(num_nodes, 80)
 
     graph = Data(
         x          = x,
