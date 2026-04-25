@@ -3,10 +3,10 @@ __pycache__/
 *.pyc
 *.pth
 *.onnx
-data/*.csv
-data/*.pcap
-.env
+data/
 models/*.pkl
 *.egg-info/
 .DS_Store
 notebooks/.ipynb_checkpoints/
+*.zip
+*:Zone.Identifier
