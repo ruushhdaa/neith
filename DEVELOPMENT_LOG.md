@@ -1,0 +1,1 @@
+- [2026-04-30T21:37:28] docs(mitre): update heuristic mapping for T1046 and T1071
