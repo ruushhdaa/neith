@@ -5,3 +5,4 @@
 - [2026-04-30T16:22:23] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-05-02T21:14:36] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-02T22:10:40] test(adwin): verify drift detection event log trigger
+- [2026-05-02T18:37:25] docs(conformal): document 90% confidence interval calculations
