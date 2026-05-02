@@ -7,3 +7,4 @@
 - [2026-05-02T22:10:40] test(adwin): verify drift detection event log trigger
 - [2026-05-02T18:37:25] docs(conformal): document 90% confidence interval calculations
 - [2026-05-02T15:15:57] style(frontend): update D3.js network graph node colors
+- [2026-05-02T18:30:37] test(adwin): verify drift detection event log trigger
