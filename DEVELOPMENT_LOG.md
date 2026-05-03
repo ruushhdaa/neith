@@ -9,3 +9,4 @@
 - [2026-05-02T15:15:57] style(frontend): update D3.js network graph node colors
 - [2026-05-02T18:30:37] test(adwin): verify drift detection event log trigger
 - [2026-05-03T14:58:49] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-05-03T13:16:58] test(adwin): verify drift detection event log trigger
