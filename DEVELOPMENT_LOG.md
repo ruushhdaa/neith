@@ -11,3 +11,4 @@
 - [2026-05-03T14:58:49] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-05-03T13:16:58] test(adwin): verify drift detection event log trigger
 - [2026-05-04T19:44:32] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-05-04T16:07:20] style(frontend): update D3.js network graph node colors
