@@ -15,3 +15,4 @@
 - [2026-05-06T19:22:13] test(adwin): verify drift detection event log trigger
 - [2026-05-06T13:35:28] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-06T12:50:58] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-05-06T15:00:52] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
