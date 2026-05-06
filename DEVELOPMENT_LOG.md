@@ -12,3 +12,4 @@
 - [2026-05-03T13:16:58] test(adwin): verify drift detection event log trigger
 - [2026-05-04T19:44:32] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-05-04T16:07:20] style(frontend): update D3.js network graph node colors
+- [2026-05-06T19:22:13] test(adwin): verify drift detection event log trigger
