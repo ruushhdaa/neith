@@ -14,3 +14,4 @@
 - [2026-05-04T16:07:20] style(frontend): update D3.js network graph node colors
 - [2026-05-06T19:22:13] test(adwin): verify drift detection event log trigger
 - [2026-05-06T13:35:28] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
+- [2026-05-06T12:50:58] refactor(scapy): optimize per-IP feature vector scaling
