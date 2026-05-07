@@ -18,3 +18,4 @@
 - [2026-05-06T15:00:52] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-06T11:29:49] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-07T10:26:32] feat(features): add reverse DNS resolution fallback
+- [2026-05-07T13:37:39] style(frontend): update D3.js network graph node colors
