@@ -20,3 +20,4 @@
 - [2026-05-07T10:26:32] feat(features): add reverse DNS resolution fallback
 - [2026-05-07T13:37:39] style(frontend): update D3.js network graph node colors
 - [2026-05-07T21:45:50] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
+- [2026-05-11T21:53:27] feat(features): add reverse DNS resolution fallback
