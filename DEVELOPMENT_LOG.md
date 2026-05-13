@@ -22,3 +22,4 @@
 - [2026-05-07T21:45:50] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-11T21:53:27] feat(features): add reverse DNS resolution fallback
 - [2026-05-11T14:43:39] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-05-13T12:23:09] test(adwin): verify drift detection event log trigger
