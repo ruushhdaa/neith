@@ -23,3 +23,4 @@
 - [2026-05-11T21:53:27] feat(features): add reverse DNS resolution fallback
 - [2026-05-11T14:43:39] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-05-13T12:23:09] test(adwin): verify drift detection event log trigger
+- [2026-05-13T15:01:01] refactor(scapy): optimize per-IP feature vector scaling
