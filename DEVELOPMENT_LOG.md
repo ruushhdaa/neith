@@ -24,3 +24,4 @@
 - [2026-05-11T14:43:39] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-05-13T12:23:09] test(adwin): verify drift detection event log trigger
 - [2026-05-13T15:01:01] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-05-13T10:23:31] docs(conformal): document 90% confidence interval calculations
