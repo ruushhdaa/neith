@@ -28,3 +28,4 @@
 - [2026-05-13T11:56:51] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-14T22:48:16] docs(conformal): document 90% confidence interval calculations
 - [2026-05-14T14:25:44] feat(features): add reverse DNS resolution fallback
+- [2026-05-14T11:16:03] docs(conformal): document 90% confidence interval calculations
