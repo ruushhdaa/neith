@@ -35,3 +35,4 @@
 - [2026-05-17T14:15:12] docs(conformal): document 90% confidence interval calculations
 - [2026-05-17T19:50:48] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-18T19:30:07] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-05-18T11:50:04] style(frontend): update D3.js network graph node colors
