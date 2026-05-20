@@ -37,3 +37,4 @@
 - [2026-05-18T19:30:07] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-05-18T11:50:04] style(frontend): update D3.js network graph node colors
 - [2026-05-18T19:40:10] feat(features): add reverse DNS resolution fallback
+- [2026-05-20T16:50:27] refactor(scapy): optimize per-IP feature vector scaling
