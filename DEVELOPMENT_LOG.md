@@ -40,3 +40,4 @@
 - [2026-05-20T16:50:27] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-05-20T21:01:01] docs(conformal): document 90% confidence interval calculations
 - [2026-05-20T14:10:08] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
+- [2026-05-20T19:04:58] refactor(scapy): optimize per-IP feature vector scaling
