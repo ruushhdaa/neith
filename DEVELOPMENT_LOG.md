@@ -46,3 +46,4 @@
 - [2026-05-21T15:08:31] docs(conformal): document 90% confidence interval calculations
 - [2026-05-21T10:56:28] feat(features): add reverse DNS resolution fallback
 - [2026-05-21T15:19:25] test(adwin): verify drift detection event log trigger
+- [2026-05-21T15:15:52] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
