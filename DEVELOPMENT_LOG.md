@@ -49,3 +49,4 @@
 - [2026-05-21T15:15:52] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-05-22T17:54:33] style(frontend): update D3.js network graph node colors
 - [2026-05-22T20:47:53] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-05-22T18:44:02] docs(mitre): update heuristic mapping for T1046 and T1071
