@@ -52,3 +52,4 @@
 - [2026-05-22T18:44:02] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-05-22T16:26:18] style(frontend): update D3.js network graph node colors
 - [2026-05-24T11:28:02] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-05-24T15:29:32] docs(conformal): document 90% confidence interval calculations
