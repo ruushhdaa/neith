@@ -56,3 +56,4 @@
 - [2026-05-24T17:41:18] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-05-24T18:04:05] test(adwin): verify drift detection event log trigger
 - [2026-05-25T11:24:35] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
+- [2026-05-25T13:09:44] docs(conformal): document 90% confidence interval calculations
