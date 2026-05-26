@@ -60,3 +60,4 @@
 - [2026-05-25T12:44:55] test(adwin): verify drift detection event log trigger
 - [2026-05-25T20:47:45] style(frontend): update D3.js network graph node colors
 - [2026-05-25T17:45:30] docs(conformal): document 90% confidence interval calculations
+- [2026-05-26T17:38:15] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
