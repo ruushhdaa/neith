@@ -68,3 +68,4 @@
 - [2026-05-28T14:34:17] feat(features): add reverse DNS resolution fallback
 - [2026-05-28T10:21:48] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-05-28T11:09:26] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-05-29T19:13:04] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
