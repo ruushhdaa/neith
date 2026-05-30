@@ -73,3 +73,4 @@
 - [2026-05-29T13:49:51] docs(conformal): document 90% confidence interval calculations
 - [2026-05-29T14:32:26] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-05-29T22:55:55] test(adwin): verify drift detection event log trigger
+- [2026-05-30T19:22:19] feat(features): add reverse DNS resolution fallback
