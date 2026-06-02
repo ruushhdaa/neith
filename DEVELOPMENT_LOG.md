@@ -77,3 +77,4 @@
 - [2026-05-30T15:40:17] feat(features): add reverse DNS resolution fallback
 - [2026-05-30T18:29:48] style(frontend): update D3.js network graph node colors
 - [2026-06-02T16:31:58] test(adwin): verify drift detection event log trigger
+- [2026-06-02T17:04:36] style(frontend): update D3.js network graph node colors
