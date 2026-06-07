@@ -82,3 +82,4 @@
 - [2026-06-05T14:08:56] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-06-05T12:16:21] test(adwin): verify drift detection event log trigger
 - [2026-06-07T17:53:12] feat(features): add reverse DNS resolution fallback
+- [2026-06-07T12:52:02] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
