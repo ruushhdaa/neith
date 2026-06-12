@@ -92,3 +92,4 @@
 - [2026-06-12T15:01:18] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-06-12T22:15:52] test(adwin): verify drift detection event log trigger
 - [2026-06-12T21:04:22] feat(features): add reverse DNS resolution fallback
+- [2026-06-12T15:37:50] feat(features): add reverse DNS resolution fallback
