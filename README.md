@@ -20,8 +20,6 @@ NEITH is an AI-powered Network Intrusion Detection System that:
 ## Architecture
 Packets → Graph Builder → GraphSAGE GNN → Anomaly Scores → Flask API → Dashboard
 
-text
-
 
 ## Stack
 
@@ -48,11 +46,12 @@ cd frontend/neith
 npm install
 npm run dev
 Open http://localhost:3000
+```
 
-Screenshots
+## Screenshots
 Coming soon
 
-Features
+## Features
  Real-time packet capture
  Dynamic graph construction
  GraphSAGE anomaly detection
@@ -64,12 +63,16 @@ Features
  MITRE ATT&CK Mapping
  Docker deployment
  Demo mode for GitHub visitors
-Training Results
-text
+
+## Training Results
 
 Epoch 01/10 | Loss: 0.7029 | Accuracy: 53.67%
 Epoch 05/10 | Loss: 0.6431 | Accuracy: 69.52%
 Epoch 10/10 | Loss: 0.5774 | Accuracy: 83.53%
+
+
+
+
 Built by Rushda Jagtap
 B.Tech CSE (Data Science) — MITAOE, Pune
 Niche: Cyber Adversarial Analytics
