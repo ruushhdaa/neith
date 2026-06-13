@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useNeith } from "@/hooks/useNeith";
 import NetworkGraph from "@/components/NetworkGraph";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const TABS = ["Overview", "Analysis", "Threats", "Network", "System"] as const;
 type Tab = typeof TABS[number];
@@ -41,6 +42,8 @@ export default function Dashboard() {
   const { status, graph, alerts, error, ready } = useNeith();
   const [activeTab, setActiveTab] = useState<Tab>("Overview");
   const [tabFade, setTabFade] = useState(true);
+
+  if (!ready && !error) return <LoadingScreen />;
 
   const suspicious = graph.nodes?.filter(n => n.status === "suspicious").length ?? 0;
   const avgScore = graph.nodes?.length > 0
