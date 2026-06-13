@@ -66,11 +66,11 @@ Coming soon
 
 ## Training Results
 
-Epoch 01/10 | Loss: 0.7029 | Accuracy: 53.67%
-Epoch 05/10 | Loss: 0.6431 | Accuracy: 69.52%
-Epoch 10/10 | Loss: 0.5774 | Accuracy: 83.53%
-
-
+| Epoch | Loss | Accuracy |
+| :--- | :--- | :--- |
+| Epoch 01/10 | 0.7029 | 53.67% |
+| Epoch 05/10 | 0.6431 | 69.52% |
+| Epoch 10/10 | 0.5774 | 83.53% |
 
 
 Built by Rushda Jagtap
