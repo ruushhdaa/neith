@@ -18,6 +18,9 @@ and handles network behavior changes over time using adaptive drift detection.
 
 Fully local. No cloud dependency. Raspberry Pi deployable.
 
+## Live Demo
+NEITH runs locally — clone the repo and follow the setup instructions to see the live dashboard.
+
 ## Architecture
 - **Packet Layer** — Scapy-based real-time traffic capture
 - **Graph Layer** — Dynamic graph construction (Nodes = IPs, Edges = Flows)
