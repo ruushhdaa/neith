@@ -141,3 +141,21 @@ body {
 .animate-hiero {
   animation: hieroglyph-breathe 6s ease-in-out infinite;
 }
+
+
+/* Node pulse for D3 */
+@keyframes node-pulse {
+  0%, 100% {
+    r: 22;
+    opacity: 0.3;
+  }
+  50% {
+    r: 28;
+    opacity: 0.1;
+  }
+}
+
+@keyframes edge-flow {
+  0% { stroke-dashoffset: 20; }
+  100% { stroke-dashoffset: 0; }
+}
