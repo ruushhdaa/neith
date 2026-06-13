@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --noir: #111419;
+  --emerald: #284139;
+  --egyptian: #BB6830;
+  --khaki: #F8E794;
+  --wasabi: #809070;
+  --balsamico: #150C0C;
+  --burnt: #341E0F;
+  --honey: #85431E;
+  --whiskey: #D39858;
+  --champagne: #EACEAA;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--noir);
+  color: var(--champagne);
+  font-family: 'Crimson Text', serif;
+  font-size: 17px;
+  line-height: 1.85;
+  position: relative;
+}
+
+.font-temple { font-family: 'UnifrakturMaguntia', cursive; }
+.font-carved { font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: 2.5px; }
+.font-scroll  { font-family: 'Crimson Text', serif; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--balsamico); }
+::-webkit-scrollbar-thumb { background: var(--egyptian); }
+::-webkit-scrollbar-thumb:hover { background: var(--whiskey); }
+
+
+/* ── NEITH Animations ─────────────────────────────────────── */
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; box-shadow: 0 0 4px currentColor; }
+  50% { opacity: 1; box-shadow: 0 0 12px currentColor; }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes fade-slide-in {
+  0% { opacity: 0; transform: translateY(-16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.06; }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.3; }
+  94% { opacity: 1; }
+  96% { opacity: 0.5; }
+  97% { opacity: 1; }
+}
+
+@keyframes count-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes alert-flash {
+  0% { border-left-color: #BB6830; background: rgba(187,104,48,0.12); }
+  50% { border-left-color: #F8E794; background: rgba(248,231,148,0.08); }
+  100% { border-left-color: #BB6830; background: rgba(187,104,48,0.05); }
+}
+
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(187,104,48,0.2); }
+  50% { border-color: rgba(187,104,48,0.5); }
+}
+
+@keyframes hieroglyph-breathe {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.07; }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-scan {
+  animation: scan-line 8s linear infinite;
+}
+
+.animate-fade-in {
+  animation: fade-slide-in 0.4s ease-out forwards;
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.animate-flicker {
+  animation: flicker 6s ease-in-out infinite;
+}
+
+.animate-count {
+  animation: count-pulse 0.6s ease-out;
+}
+
+.animate-alert {
+  animation: alert-flash 2s ease-in-out infinite;
+}
+
+.animate-border-glow {
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+.animate-hiero {
+  animation: hieroglyph-breathe 6s ease-in-out infinite;
+}

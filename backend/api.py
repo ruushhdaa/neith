@@ -123,7 +123,7 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
                 alert = {
                     "ip"        : ip,
                     "score"     : score,
-                    "timestamp" : datetime.now().strftime("%H:%M:%S"),
+                    "timestamp" : datetime.now().astimezone().strftime("%H:%M:%S"),
                     "window"    : window_count,
                 }
                 new_alerts.append(alert)
@@ -147,7 +147,7 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
             state["edges"]        = edges
             state["window_count"] = window_count
             state["model_status"] = "active"
-            state["last_updated"] = datetime.now().strftime("%H:%M:%S")
+            state["last_updated"] = datetime.now().astimezone().strftime("%H:%M:%S")
             for alert in new_alerts:
                 state["alerts"].appendleft(alert)
 
