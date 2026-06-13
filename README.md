@@ -73,6 +73,6 @@ Coming soon
 | Epoch 10/10 | 0.5774 | 83.53% |
 
 
-Built by Rushda Jagtap
+## Built by Rushda Jagtap
 B.Tech CSE (Data Science) — MITAOE, Pune
 Niche: Cyber Adversarial Analytics
