@@ -1,40 +1,75 @@
 # NEITH
 ### Network Entity Intelligence & Threat Hunter
 
-> *The Egyptian goddess Neith wove the fabric of reality and hunted across it.*
+> *The Egyptian goddess Neith wove the fabric of reality and hunted across it.*  
 > *This system weaves your network into a living graph and hunts anomalies within it.*
 
 ---
 
-## Status
-🔨 **Active Development** — Building in public. Follow along.
-
 ## What Is NEITH?
-NEITH is an AI-powered Network Intrusion Detection System that models network 
-traffic as a dynamic graph, uses a Graph Neural Network to detect behavioral 
-anomalies without requiring labeled attack data, attaches statistically 
-guaranteed confidence intervals to every prediction using Conformal Prediction, 
-and handles network behavior changes over time using adaptive drift detection.
 
-Fully local. No cloud dependency. Raspberry Pi deployable.
+NEITH is an AI-powered Network Intrusion Detection System that:
 
-## Live Demo
-NEITH runs locally — clone the repo and follow the setup instructions to see the live dashboard.
+- **Captures** live network traffic using Scapy
+- **Builds** dynamic graphs every 10 seconds (Nodes = IPs, Edges = connections)
+- **Analyzes** traffic patterns using a GraphSAGE Graph Neural Network
+- **Scores** every device on your network for anomalous behavior (0–100%)
+- **Alerts** when suspicious patterns are detected
+- **Visualizes** everything in a live Egyptian-themed dashboard
 
 ## Architecture
-- **Packet Layer** — Scapy-based real-time traffic capture
-- **Graph Layer** — Dynamic graph construction (Nodes = IPs, Edges = Flows)
-- **Intelligence Layer** — GraphSAGE GNN anomaly detection
-- **Honesty Layer** — Conformal Prediction confidence intervals
-- **Resilience Layer** — ADWIN drift detection and selective retraining
-- **Interface Layer** — React dashboard with live network visualization
+Packets → Graph Builder → GraphSAGE GNN → Anomaly Scores → Flask API → Dashboard
+
+text
+
 
 ## Stack
-Python • PyTorch Geometric • Scapy • Flask • React • ONNX Runtime • River • MAPIE
 
-## Deployment
-Runs on Linux. Deployable on Raspberry Pi 4 (4GB+). No GPU required.
+| Layer | Technology |
+|-------|-----------|
+| Packet Capture | Scapy |
+| Graph Construction | PyTorch Geometric |
+| Intelligence | GraphSAGE (trained on CICIDS 2017, 83.5% accuracy) |
+| API | Flask |
+| Frontend | Next.js, D3.js, Tailwind CSS |
+| Deployment | Linux, Raspberry Pi compatible |
 
----
+## Quick Start
 
-*Rushda Jagtap — First Year B.Tech CSE (Data Science), MITAOE*
+### Backend
+```bash
+cd backend
+pip install -r requirements.txt
+sudo python api.py
+Frontend
+Bash
+
+cd frontend/neith
+npm install
+npm run dev
+Open http://localhost:3000
+
+Screenshots
+Coming soon
+
+Features
+ Real-time packet capture
+ Dynamic graph construction
+ GraphSAGE anomaly detection
+ Flask REST API
+ Live animated dashboard
+ 5 dashboard tabs (Overview, Analysis, Threats, Network, System)
+ Conformal Prediction (confidence intervals)
+ ADWIN Drift Detection
+ MITRE ATT&CK Mapping
+ Docker deployment
+ Demo mode for GitHub visitors
+Training Results
+text
+
+Epoch 01/10 | Loss: 0.7029 | Accuracy: 53.67%
+Epoch 05/10 | Loss: 0.6431 | Accuracy: 69.52%
+Epoch 10/10 | Loss: 0.5774 | Accuracy: 83.53%
+Built by Rushda Jagtap
+B.Tech CSE (Data Science) — MITAOE, Pune
+Niche: Cyber Adversarial Analytics
