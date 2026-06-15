@@ -100,3 +100,4 @@
 - [2026-06-14T15:53:36] feat(features): add reverse DNS resolution fallback
 - [2026-06-14T18:42:15] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-06-14T22:29:30] style(frontend): update D3.js network graph node colors
+- [2026-06-15T11:42:17] feat(features): add reverse DNS resolution fallback
