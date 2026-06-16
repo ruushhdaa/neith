@@ -104,3 +104,4 @@
 - [2026-06-15T12:42:48] docs(conformal): document 90% confidence interval calculations
 - [2026-06-15T22:46:44] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-06-16T12:23:22] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-06-16T20:49:24] docs(mitre): update heuristic mapping for T1046 and T1071
