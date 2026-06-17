@@ -111,22 +111,22 @@ Frontend starts the same way.
 
 **Implemented**
 
-[x] Real-time packet capture (Scapy)
-[x] Dynamic graph construction every 10 seconds
-[x] GraphSAGE Graph Neural Network anomaly detection
-[x] Flask REST API (status, graph, alerts, history, drift, conformal endpoints)
-[x] Live animated dashboard with five tabs
-[x] MITRE ATT&CK heuristic classification (9 techniques across 6 tactics)
-[x] SQLite persistence — alerts survive restarts
-[x] Conformal Prediction — 90% confidence interval on every score
-[x] ADWIN drift detection with event logging
-[x] Demo mode for portfolio visitors (synthetic enterprise LAN data)
+- [x] Real-time packet capture (Scapy)
+- [x] Dynamic graph construction every 10 seconds
+- [x] GraphSAGE Graph Neural Network anomaly detection
+- [x] Flask REST API (status, graph, alerts, history, drift, conformal endpoints)
+- [x] Live animated dashboard with five tabs
+- [x] MITRE ATT&CK heuristic classification (9 techniques across 6 tactics)
+- [x] SQLite persistence — alerts survive restarts
+- [x] Conformal Prediction — 90% confidence interval on every score
+- [x] ADWIN drift detection with event logging
+- [x] Demo mode for portfolio visitors (synthetic enterprise LAN data)
 
 **Planned**
 
-[ ] Mobile responsive layout
-[ ] Docker deployment
-[ ] Research paper benchmarks
+- [ ] Mobile responsive layout
+- [ ] Docker deployment
+- [ ] Research paper benchmarks
 
 ---
 
@@ -161,6 +161,7 @@ Frontend starts the same way.
 
 ## Project Structure
 
+```text
 neith/
 ├── backend/
 │   ├── api.py              # Flask API + background pipeline
@@ -188,6 +189,7 @@ neith/
 │   ├── scaler.pkl          # Feature scaler
 │   └── feature_count.txt
 └── README.md
+```
 
 ---
 
