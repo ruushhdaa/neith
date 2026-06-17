@@ -12,3 +12,4 @@ notebooks/.ipynb_checkpoints/
 *:Zone.Identifierfrontend/neith/node_modules/
 frontend/neith/.next/
 mitaoe-coursework/
+models/neith_alerts.db
