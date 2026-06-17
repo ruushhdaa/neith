@@ -102,8 +102,9 @@ Open http://localhost:3000
 
 cd backend
 sudo python api.py
-Frontend starts the same way.
 ```
+
+Frontend starts the same way.
 
 ---
 
