@@ -141,19 +141,6 @@ export default function Dashboard() {
         {/* Status */}
         <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
 
-          {/* Demo mode indicator */}
-          {status.demo_mode && (
-            <span className="font-carved" style={{
-              fontSize: "9px",
-              color: "#D39858",
-              borderBottom: "1px solid rgba(211,152,88,0.3)",
-              paddingBottom: "1px",
-              letterSpacing: "2px",
-            }}>
-              Demo Mode
-            </span>
-          )}
-
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <div className="animate-pulse-dot" style={{
               width: "7px", height: "7px", borderRadius: "50%",
@@ -163,9 +150,7 @@ export default function Dashboard() {
                 : "0 0 8px rgba(187,104,48,0.8)",
             }} />
             <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
-              {status.status === "active" ? "Neith watches"
-               : status.status === "demo" ? "Demo mode"
-               : "Neith stirs..."}
+              {status.status === "active" || status.status === "demo" ? "Neith watches" : "Neith stirs..."}
             </span>
           </div>
 
@@ -312,7 +297,7 @@ export default function Dashboard() {
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px" }}>
                           <span className="font-scroll" style={{ fontSize: "13px", color: "#85431E" }}>
-                            {i === 0 ? "⚡ Neith has just marked this node" : "Neith has marked this node"}
+                            {i === 0 ? "Neith has just marked this node" : "Neith has marked this node"}
                           </span>
                           <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
                             {alert.timestamp}
@@ -464,7 +449,7 @@ export default function Dashboard() {
                       {/* Interval annotation */}
                       {(node.interval_width ?? 0) > 0 && (
                         <div style={{ paddingLeft: "44px", marginTop: "4px" }}>
-                          <span className="font-scroll" style={{ fontSize: "12px", color: "#341E0F" }}>
+                          <span className="font-scroll" style={{ fontSize: "12px", color: "#732828" }}>
                             {`${((node.score_lower ?? node.score) * 100).toFixed(0)}% -- ${((node.score_upper ?? node.score) * 100).toFixed(0)}%`}
                             <span style={{ color: "#809070", marginLeft: "10px" }}>
                               90% conformal interval
@@ -477,8 +462,9 @@ export default function Dashboard() {
               )}
             </div>
           </div>
+        )}
 
-        {/* -- THREATS TAB ----------------------------------- */}
+        
         {activeTab === "Threats" && (
           <div className="animate-fade-in">
             <h1 className="font-temple" style={{ fontSize: "42px", color: "#F8E794", marginBottom: "8px" }}>
@@ -684,7 +670,7 @@ export default function Dashboard() {
                   name    : "Intelligence Engine",
                   desc    : "GraphSAGE Graph Neural Network trained on CICIDS 2017. 83.5% accuracy across 10,000 real network flows. The brain of the goddess.",
                   active  : status.status === "active" || status.status === "demo",
-                  label   : status.status === "demo" ? "Running in demo mode" : "Neith is unleashing the GNN",
+                  label   : status.status === "demo" ? "Neith dreams of past battles" : "Neith is unleashing the GNN",
                   meta    : null,
                 },
                 {
@@ -834,8 +820,13 @@ export default function Dashboard() {
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
         <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
-          NEITH · Network Entity Intelligence & Threat Hunter
-        </span>
+  NEITH · Network Entity Intelligence & Threat Hunter
+  {status.status === "demo" && (
+    <span style={{ color: "#D39858", marginLeft: "16px", letterSpacing: "2.5px" }}>
+      · Replaying the sacred scrolls
+    </span>
+  )}
+</span>
         <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
           {status.last_updated ? `Last seen: ${status.last_updated}` : "Neith watches in silence"}
         </span>
