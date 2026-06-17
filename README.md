@@ -27,6 +27,12 @@ It does not rely on attack signatures or hand-written rules. It learns what norm
 
 ---
 
+## See It In Action
+
+https://github.com/user-attachments/assets/6f8690e8-7361-4603-87af-44b10cb6603f
+
+
+
 ## Architecture
 Packets (Scapy)
 → Graph Builder (PyTorch Geometric)
