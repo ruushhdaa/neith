@@ -1,0 +1,91 @@
+# docker-compose.yml
+# NEITH -- Network Entity Intelligence & Threat Hunter
+# Orchestrates the backend (Flask API) and frontend (Next.js) containers.
+#
+# Usage
+# -----
+# Demo mode (no hardware required):
+#   NEITH_DEMO=1 docker compose up --build
+#
+# Live mode (Linux host with a real network interface):
+#   NEITH_INTERFACE=eth0 docker compose --profile live up --build
+#   (The live profile grants the backend host networking and cap_net_raw
+#    so Scapy can capture packets.)
+#
+# Stopping:
+#   docker compose down
+#
+# Persisted data:
+#   ./models/neith_alerts.db  -- SQLite alert history
+#   ./models/neith_trained.pt -- model weights (must exist before live mode)
+
+version: "3.9"
+
+services:
+
+  # -- Backend (Flask API + GNN pipeline) -----------------------
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: neith-backend
+    container_name: neith-backend
+    restart: unless-stopped
+    environment:
+      - NEITH_DEMO=${NEITH_DEMO:-1}
+      - NEITH_INTERFACE=${NEITH_INTERFACE:-eth0}
+    ports:
+      - "5000:5000"
+    volumes:
+      # Persist trained model weights and SQLite alert database
+      - ./models:/app/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/status"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # -- Backend (live capture variant) ---------------------------
+  # Only started when --profile live is passed.
+  # Requires a Linux host; will not work on macOS or Windows Docker Desktop.
+  backend-live:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: neith-backend
+    container_name: neith-backend-live
+    restart: unless-stopped
+    profiles:
+      - live
+    environment:
+      - NEITH_DEMO=0
+      - NEITH_INTERFACE=${NEITH_INTERFACE:-eth0}
+    network_mode: host          # raw socket access
+    cap_add:
+      - NET_RAW                 # Scapy packet capture
+      - NET_ADMIN
+    volumes:
+      - ./models:/app/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/status"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # -- Frontend (Next.js dashboard) -----------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/neith/Dockerfile
+    image: neith-frontend
+    container_name: neith-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
