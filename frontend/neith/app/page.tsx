@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useNeith } from "@/hooks/useNeith";
+import { useNeith, useNeithDrift } from "@/hooks/useNeith";
+import type { NeithAlertRecord } from "@/hooks/useNeith";
 import NetworkGraph from "@/components/NetworkGraph";
 import LoadingScreen from "@/components/LoadingScreen";
 
@@ -40,8 +41,40 @@ function AnimatedNumber({ value, color = "#F8E794" }: { value: number; color?: s
 
 export default function Dashboard() {
   const { status, graph, alerts, error, ready } = useNeith();
+  const { events: driftEvents } = useNeithDrift();
   const [activeTab, setActiveTab] = useState<Tab>("Overview");
   const [tabFade, setTabFade] = useState(true);
+
+  // ── Persistent alert history (SQLite-backed) ──────────────────
+  const [history, setHistory] = useState<NeithAlertRecord[]>([]);
+  const [historySince, setHistorySince] = useState<string | null>(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
+
+  const fetchHistory = async (since?: string | null) => {
+    setHistoryLoading(true);
+    try {
+      const url = since
+        ? `http://localhost:5000/api/alerts/history?limit=50&since=${encodeURIComponent(since)}`
+        : `http://localhost:5000/api/alerts/history?limit=50`;
+      const res  = await fetch(url);
+      const data = await res.json();
+      const rows: NeithAlertRecord[] = data.alerts ?? [];
+      setHistory(prev => since ? [...prev, ...rows] : rows);
+      if (rows.length > 0) {
+        // record_at of the last (oldest) row becomes our next page cursor
+        setHistorySince(rows[rows.length - 1].recorded_at);
+      }
+    } catch {
+      // history fetch failure is non-critical — live alerts still work
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === "Threats") fetchHistory(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
 
   if (!ready && !error) return <LoadingScreen />;
 
@@ -107,18 +140,35 @@ export default function Dashboard() {
 
         {/* Status */}
         <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+
+          {/* Demo mode indicator */}
+          {status.demo_mode && (
+            <span className="font-carved" style={{
+              fontSize: "9px",
+              color: "#D39858",
+              borderBottom: "1px solid rgba(211,152,88,0.3)",
+              paddingBottom: "1px",
+              letterSpacing: "2px",
+            }}>
+              Demo Mode
+            </span>
+          )}
+
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <div className="animate-pulse-dot" style={{
               width: "7px", height: "7px", borderRadius: "50%",
-              background: status.status === "active" ? "#809070" : "#BB6830",
-              boxShadow: status.status === "active"
+              background: status.status === "active" || status.status === "demo" ? "#809070" : "#BB6830",
+              boxShadow: status.status === "active" || status.status === "demo"
                 ? "0 0 8px rgba(128,144,112,0.8)"
                 : "0 0 8px rgba(187,104,48,0.8)",
             }} />
             <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
-              {status.status === "active" ? "Neith watches" : "Neith stirs..."}
+              {status.status === "active" ? "Neith watches"
+               : status.status === "demo" ? "Demo mode"
+               : "Neith stirs..."}
             </span>
           </div>
+
           {error && (
             <span className="font-carved animate-pulse-glow" style={{ fontSize: "9px", color: "#85431E" }}>
               {error}
@@ -310,14 +360,25 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* ── ANALYSIS TAB ─────────────────────────────────── */}
         {activeTab === "Analysis" && (
           <div className="animate-fade-in">
             <h1 className="font-temple" style={{ fontSize: "42px", color: "#F8E794", marginBottom: "8px" }}>
               The Weighing of Souls
             </h1>
-            <p className="font-scroll" style={{ color: "#809070", marginBottom: "48px" }}>
+            <p className="font-scroll" style={{ color: "#809070", marginBottom: "8px" }}>
               Each node is measured against the feather of truth.
+            </p>
+
+            {/* Conformal calibration notice */}
+            <p className="font-carved" style={{
+              fontSize: "9px",
+              color: status.conformal?.calibrated ? "#809070" : "#341E0F",
+              marginBottom: "40px",
+              letterSpacing: "2px",
+            }}>
+              {status.conformal?.calibrated
+                ? `Conformal intervals active -- 90% coverage, ${status.conformal.buffer_count} calibration samples`
+                : "Conformal intervals accumulating calibration samples -- point estimates shown"}
             </p>
 
             <div style={{
@@ -326,7 +387,7 @@ export default function Dashboard() {
               padding: "32px",
             }}>
               <div className="font-carved" style={{ fontSize: "10px", color: "#809070", marginBottom: "24px" }}>
-                Node Risk Scores — Ranked by Severity
+                Node Risk Scores -- Ranked by Severity
               </div>
 
               {graph.nodes?.length === 0 ? (
@@ -341,44 +402,83 @@ export default function Dashboard() {
                   ?.sort((a, b) => b.score - a.score)
                   .map((node, i) => (
                     <div key={i} style={{
-                      display: "flex", alignItems: "center",
-                      gap: "24px", padding: "14px 0",
+                      padding: "16px 0",
                       borderBottom: "1px solid rgba(187,104,48,0.08)",
                       background: i % 2 === 0 ? "transparent" : "rgba(26,46,40,0.15)",
                       animation: `fade-slide-in 0.4s ease-out ${i * 0.05}s both`,
                     }}>
-                      <span className="font-carved" style={{ fontSize: "9px", color: "#809070", width: "20px" }}>
-                        {i + 1}
-                      </span>
-                      <span className="font-carved" style={{ fontSize: "11px", color: "#EACEAA", minWidth: "160px" }}>
-                        {node.id}
-                      </span>
-                      <div style={{ flex: 1, height: "4px", background: "rgba(26,46,40,0.5)" }}>
-                        <div style={{
-                          height: "100%",
-                          width: `${node.score * 100}%`,
-                          background: node.status === "suspicious"
-                            ? "linear-gradient(90deg, #85431E, #BB6830)"
-                            : "linear-gradient(90deg, #284139, #809070)",
-                          transition: "width 1s ease",
-                          boxShadow: node.status === "suspicious" ? "0 0 8px rgba(187,104,48,0.4)" : "none",
-                        }} />
+                      {/* Row: rank, IP, bar, score */}
+                      <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+                        <span className="font-carved" style={{ fontSize: "9px", color: "#809070", width: "20px" }}>
+                          {i + 1}
+                        </span>
+                        <span className="font-carved" style={{ fontSize: "11px", color: "#EACEAA", minWidth: "160px" }}>
+                          {node.id}
+                        </span>
+
+                        {/* Stacked bar: interval + point score */}
+                        <div style={{ flex: 1, position: "relative", height: "8px" }}>
+                          {/* Confidence interval band */}
+                          {(node.interval_width ?? 0) > 0 && (
+                            <div style={{
+                              position: "absolute",
+                              left:   `${(node.score_lower ?? node.score) * 100}%`,
+                              width:  `${(node.interval_width ?? 0) * 100}%`,
+                              height: "100%",
+                              background: node.status === "suspicious"
+                                ? "rgba(187,104,48,0.18)"
+                                : "rgba(128,144,112,0.18)",
+                              transition: "left 1s ease, width 1s ease",
+                            }} />
+                          )}
+                          {/* Background track */}
+                          <div style={{
+                            position: "absolute", top: "2px",
+                            left: 0, right: 0, height: "4px",
+                            background: "rgba(26,46,40,0.5)",
+                          }} />
+                          {/* Point score bar */}
+                          <div style={{
+                            position: "absolute", top: "2px",
+                            left: 0, height: "4px",
+                            width: `${node.score * 100}%`,
+                            background: node.status === "suspicious"
+                              ? "linear-gradient(90deg, #85431E, #BB6830)"
+                              : "linear-gradient(90deg, #284139, #809070)",
+                            transition: "width 1s ease",
+                            boxShadow: node.status === "suspicious"
+                              ? "0 0 6px rgba(187,104,48,0.4)" : "none",
+                          }} />
+                        </div>
+
+                        <span className="font-carved" style={{
+                          fontSize: "11px",
+                          color: node.score > 0.8 ? "#F8E794"
+                               : node.score > 0.5 ? "#D39858" : "#809070",
+                          minWidth: "48px", textAlign: "right",
+                        }}>
+                          {(node.score * 100).toFixed(0)}%
+                        </span>
                       </div>
-                      <span className="font-carved" style={{
-                        fontSize: "11px",
-                        color: node.score > 0.8 ? "#F8E794" : node.score > 0.5 ? "#D39858" : "#809070",
-                        minWidth: "48px", textAlign: "right",
-                      }}>
-                        {(node.score * 100).toFixed(0)}%
-                      </span>
+
+                      {/* Interval annotation */}
+                      {(node.interval_width ?? 0) > 0 && (
+                        <div style={{ paddingLeft: "44px", marginTop: "4px" }}>
+                          <span className="font-scroll" style={{ fontSize: "12px", color: "#341E0F" }}>
+                            {`${((node.score_lower ?? node.score) * 100).toFixed(0)}% -- ${((node.score_upper ?? node.score) * 100).toFixed(0)}%`}
+                            <span style={{ color: "#809070", marginLeft: "10px" }}>
+                              90% conformal interval
+                            </span>
+                          </span>
+                        </div>
+                      )}
                     </div>
                   ))
               )}
             </div>
           </div>
-        )}
 
-        {/* ── THREATS TAB ──────────────────────────────────── */}
+        {/* -- THREATS TAB ----------------------------------- */}
         {activeTab === "Threats" && (
           <div className="animate-fade-in">
             <h1 className="font-temple" style={{ fontSize: "42px", color: "#F8E794", marginBottom: "8px" }}>
@@ -389,20 +489,23 @@ export default function Dashboard() {
             </p>
 
             <div style={{ border: "1px solid rgba(187,104,48,0.2)" }}>
+              {/* ── Table header ─────────────────────────────── */}
               <div style={{
-                display: "grid", gridTemplateColumns: "1fr 120px 100px 120px",
+                display: "grid",
+                gridTemplateColumns: "1fr 100px 90px 110px 120px 140px",
                 padding: "12px 24px",
                 borderBottom: "1px solid rgba(187,104,48,0.2)",
                 background: "rgba(26,46,40,0.2)",
               }}>
-                {["IP Address", "Score", "Window", "Time"].map(h => (
+                {["IP Address", "Score", "Window", "Time", "Technique", "Tactic"].map(h => (
                   <span key={h} className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
                     {h}
                   </span>
                 ))}
               </div>
 
-              {alerts.length === 0 ? (
+              {/* ── Empty state ──────────────────────────────── */}
+              {history.length === 0 && !historyLoading ? (
                 <div style={{ padding: "48px 24px", textAlign: "center" }}>
                   <span className="animate-breathe" style={{ fontSize: "36px" }}>𓊹</span>
                   <p className="font-carved" style={{ fontSize: "11px", color: "#809070", marginTop: "16px" }}>
@@ -410,35 +513,91 @@ export default function Dashboard() {
                   </p>
                 </div>
               ) : (
-                alerts.map((alert, i) => (
-                  <div key={i} style={{
-                    display: "grid", gridTemplateColumns: "1fr 120px 100px 120px",
-                    padding: "14px 24px",
-                    borderBottom: "1px solid rgba(187,104,48,0.08)",
-                    borderLeft: i === 0 ? "2px solid #BB6830" : "2px solid transparent",
-                    animation: `fade-slide-in 0.3s ease-out ${i * 0.03}s both`,
-                    transition: "background 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(187,104,48,0.08)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                history.map((alert, i) => (
+                  <div
+                    key={alert.id}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 100px 90px 110px 120px 140px",
+                      padding: "14px 24px",
+                      borderBottom: "1px solid rgba(187,104,48,0.08)",
+                      borderLeft: i === 0 ? "2px solid #BB6830" : "2px solid transparent",
+                      animation: `fade-slide-in 0.3s ease-out ${Math.min(i, 10) * 0.03}s both`,
+                      transition: "background 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(187,104,48,0.08)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                   >
+                    {/* IP */}
                     <span className="font-carved" style={{ fontSize: "11px", color: "#EACEAA" }}>
                       {alert.ip}
                     </span>
+
+                    {/* Score */}
                     <span className="font-carved" style={{
                       fontSize: "11px",
                       color: alert.score > 0.8 ? "#F8E794" : alert.score > 0.5 ? "#D39858" : "#809070",
                     }}>
                       {(alert.score * 100).toFixed(1)}%
                     </span>
+
+                    {/* Window */}
                     <span className="font-scroll" style={{ fontSize: "14px", color: "#809070" }}>
                       #{alert.window}
                     </span>
+
+                    {/* Time */}
                     <span className="font-scroll" style={{ fontSize: "14px", color: "#809070" }}>
                       {alert.timestamp}
                     </span>
+
+                    {/* Technique ID — Cinzel, small, muted */}
+                    <span className="font-carved" style={{
+                      fontSize: "9px",
+                      color: "#809070",
+                      letterSpacing: "1.5px",
+                    }}>
+                      {alert.mitre_id ?? "—"}
+                    </span>
+
+                    {/* Tactic name — Crimson Text, slightly warmer */}
+                    <span className="font-scroll" style={{
+                      fontSize: "13px",
+                      color: alert.tactic ? "#85431E" : "#809070",
+                    }}>
+                      {alert.tactic ?? "—"}
+                    </span>
                   </div>
                 ))
+              )}
+
+              {/* ── Load More ────────────────────────────────── */}
+              {history.length > 0 && (
+                <div style={{
+                  borderTop: "1px solid rgba(187,104,48,0.1)",
+                  padding: "16px 24px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}>
+                  <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
+                    {history.length} records
+                  </span>
+                  <span
+                    className="font-carved"
+                    onClick={() => !historyLoading && fetchHistory(historySince)}
+                    style={{
+                      fontSize: "9px",
+                      color: historyLoading ? "#809070" : "#BB6830",
+                      cursor: historyLoading ? "default" : "pointer",
+                      letterSpacing: "2px",
+                      borderBottom: historyLoading ? "none" : "1px solid rgba(187,104,48,0.3)",
+                      paddingBottom: "2px",
+                    }}
+                  >
+                    {historyLoading ? "Consulting the scrolls..." : "Load Earlier Records"}
+                  </span>
+                </div>
               )}
             </div>
           </div>
@@ -507,7 +666,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* ── SYSTEM TAB ───────────────────────────────────── */}
+        {/* -- SYSTEM TAB ------------------------------------ */}
         {activeTab === "System" && (
           <div className="animate-fade-in">
             <h1 className="font-temple" style={{ fontSize: "42px", color: "#F8E794", marginBottom: "8px" }}>
@@ -517,28 +676,46 @@ export default function Dashboard() {
               The mechanisms by which Neith perceives all things.
             </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            {/* -- Subsystem status cards -------------------- */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "48px" }}>
               {[
                 {
-                  numeral: "I",
-                  name: "Intelligence Engine",
-                  desc: "GraphSAGE Graph Neural Network trained on CICIDS 2017. 83.5% accuracy across 10,000 real network flows. The brain of the goddess.",
-                  status: "active",
-                  label: "Neith is unleashing the GNN",
+                  numeral : "I",
+                  name    : "Intelligence Engine",
+                  desc    : "GraphSAGE Graph Neural Network trained on CICIDS 2017. 83.5% accuracy across 10,000 real network flows. The brain of the goddess.",
+                  active  : status.status === "active" || status.status === "demo",
+                  label   : status.status === "demo" ? "Running in demo mode" : "Neith is unleashing the GNN",
+                  meta    : null,
                 },
                 {
-                  numeral: "II",
-                  name: "Drift Monitor",
-                  desc: "ADWIN adaptive windowing algorithm. Detects when network behavior shifts so the model recalibrates automatically. The goddess adapts.",
-                  status: "standby",
-                  label: "Awaiting the tides of change",
+                  numeral : "II",
+                  name    : "Drift Monitor",
+                  desc    : "ADWIN adaptive windowing algorithm. Detects when network behaviour shifts so the model recalibrates automatically. The goddess adapts.",
+                  active  : (status.adwin?.window_size ?? 0) > 0,
+                  label   : (status.adwin?.window_size ?? 0) > 0
+                              ? `Window: ${status.adwin?.window_size} obs, mean: ${((status.adwin?.current_mean ?? 0) * 100).toFixed(1)}%`
+                              : "Awaiting the tides of change",
+                  meta    : driftEvents.length > 0
+                              ? `${driftEvents.length} drift event${driftEvents.length !== 1 ? "s" : ""} recorded`
+                              : null,
                 },
                 {
-                  numeral: "III",
-                  name: "Conformal Layer",
-                  desc: "MAPIE conformal prediction. Every anomaly score carries a statistically guaranteed confidence interval. The oracle does not guess.",
-                  status: "standby",
-                  label: "The oracle prepares",
+                  numeral : "III",
+                  name    : "Conformal Layer",
+                  desc    : "Online split-conformal prediction. Every anomaly score carries a statistically valid 90% prediction interval. The oracle does not guess -- it bounds its uncertainty.",
+                  active  : status.conformal?.calibrated ?? false,
+                  label   : status.conformal?.calibrated
+                              ? `Calibrated -- ${status.conformal.buffer_count} samples, sigma ${((status.conformal.std ?? 0) * 100).toFixed(1)}%`
+                              : `Accumulating calibration samples (${status.conformal?.buffer_count ?? 0} of 40)`,
+                  meta    : null,
+                },
+                {
+                  numeral : "IV",
+                  name    : "Persistence Layer",
+                  desc    : "SQLite alert database. Every detection is written to disk and survives server restarts. The Book of Transgressors grows with time.",
+                  active  : true,
+                  label   : "Database ready",
+                  meta    : null,
                 },
               ].map((card, i) => (
                 <div key={i} style={{
@@ -547,20 +724,16 @@ export default function Dashboard() {
                   padding: "32px",
                   display: "flex", gap: "32px", alignItems: "flex-start",
                   position: "relative", overflow: "hidden",
-                  animation: `fade-slide-in 0.5s ease-out ${i * 0.15}s both`,
+                  animation: `fade-slide-in 0.5s ease-out ${i * 0.12}s both`,
                   transition: "border-color 0.3s ease",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(187,104,48,0.5)")}
                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(187,104,48,0.2)")}
                 >
-                  {/* Watermark numeral */}
                   <div className="font-temple" style={{
-                    fontSize: "96px",
-                    color: "rgba(187,104,48,0.08)",
-                    position: "absolute",
-                    top: "-8px", right: "24px",
-                    lineHeight: 1,
-                    pointerEvents: "none",
+                    fontSize: "96px", color: "rgba(187,104,48,0.08)",
+                    position: "absolute", top: "-8px", right: "24px",
+                    lineHeight: 1, pointerEvents: "none",
                   }}>
                     {card.numeral}
                   </div>
@@ -571,15 +744,23 @@ export default function Dashboard() {
                         {card.name}
                       </span>
                       <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                        <div className={card.status === "active" ? "animate-pulse-dot" : ""} style={{
+                        <div className={card.active ? "animate-pulse-dot" : ""} style={{
                           width: "6px", height: "6px", borderRadius: "50%",
-                          background: card.status === "active" ? "#809070" : "#341E0F",
-                          boxShadow: card.status === "active" ? "0 0 8px rgba(128,144,112,0.8)" : "none",
+                          background: card.active ? "#809070" : "#341E0F",
+                          boxShadow: card.active ? "0 0 8px rgba(128,144,112,0.8)" : "none",
                         }} />
-                        <span className="font-carved" style={{ fontSize: "9px", color: card.status === "active" ? "#809070" : "#341E0F" }}>
+                        <span className="font-carved" style={{
+                          fontSize: "9px",
+                          color: card.active ? "#809070" : "#341E0F",
+                        }}>
                           {card.label}
                         </span>
                       </div>
+                      {card.meta && (
+                        <span className="font-scroll" style={{ fontSize: "13px", color: "#D39858" }}>
+                          {card.meta}
+                        </span>
+                      )}
                     </div>
                     <p className="font-scroll" style={{ color: "#809070", fontSize: "15px", lineHeight: 1.8 }}>
                       {card.desc}
@@ -588,6 +769,59 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
+
+            {/* -- ADWIN Drift Event Log --------------------- */}
+            <div style={{ border: "1px solid rgba(187,104,48,0.2)" }}>
+              <div style={{
+                padding: "16px 24px",
+                borderBottom: "1px solid rgba(187,104,48,0.2)",
+                background: "rgba(26,46,40,0.2)",
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+              }}>
+                <span className="font-carved" style={{ fontSize: "10px", color: "#809070" }}>
+                  Drift Event Log
+                </span>
+                <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
+                  {driftEvents.length === 0 ? "No shifts recorded" : `${driftEvents.length} recorded`}
+                </span>
+              </div>
+
+              {driftEvents.length === 0 ? (
+                <div style={{ padding: "36px 24px", textAlign: "center" }}>
+                  <p className="font-scroll" style={{ fontSize: "15px", color: "#809070" }}>
+                    The stream flows undisturbed. No distributional shifts have been detected.
+                  </p>
+                </div>
+              ) : (
+                driftEvents.map((ev, i) => (
+                  <div key={i} style={{
+                    display: "grid",
+                    gridTemplateColumns: "80px 100px 120px 1fr",
+                    padding: "14px 24px",
+                    borderBottom: "1px solid rgba(187,104,48,0.08)",
+                    animation: `fade-slide-in 0.3s ease-out ${i * 0.04}s both`,
+                    transition: "background 0.3s ease",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(187,104,48,0.06)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                  >
+                    <span className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
+                      Window {ev.window}
+                    </span>
+                    <span className="font-scroll" style={{ fontSize: "13px", color: "#809070" }}>
+                      {ev.timestamp}
+                    </span>
+                    <span className="font-carved" style={{ fontSize: "9px", color: "#D39858" }}>
+                      avg {(ev.avg_score * 100).toFixed(1)}%
+                    </span>
+                    <span className="font-scroll" style={{ fontSize: "13px", color: "#85431E" }}>
+                      {ev.message}
+                    </span>
+                  </div>
+                ))
+              )}
+            </div>
+
           </div>
         )}
 
