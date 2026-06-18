@@ -9,6 +9,7 @@
 import os
 from platform import node
 import sys
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import threading
@@ -87,10 +88,19 @@ def load_model():
     return model, scaler, in_channels
 
 # -- Score a Graph -----------------------------------------------
-def score_graph(graph, model, ip_index):
-    """Run the trained GNN and return per-node anomaly scores."""
+def score_graph(graph, model, scaler, ip_index):
+    """Run the trained GNN on a graph and return per-node scores.
+
+    Applies the saved StandardScaler to node features so they match
+    the training-time distribution before GNN inference.
+    """
+    # Scale features to match training distribution (mean=0, std=1)
+    x_numpy  = graph.x.numpy()
+    x_scaled = scaler.transform(x_numpy)
+    x_tensor = torch.tensor(x_scaled, dtype=torch.float)
+
     with torch.no_grad():
-        scores = model(graph.x, graph.edge_index)
+        scores = model(x_tensor, graph.edge_index)
     return scores
 
 # -- Live Pipeline Loop ------------------------------------------
@@ -118,8 +128,8 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
             continue
 
         # -- Score -----------------------------------------------
-        scores = score_graph(graph, model, ip_index)
-
+        scores = score_graph(graph, model, scaler, ip_index)
+        
         # -- Build node list with conformal intervals ------------
         mapping    = ip_index.get_all()
         sorted_ips = sorted(mapping.items(), key=lambda item: item[1])

@@ -18,8 +18,14 @@ from scapy.all import sniff, IP, TCP, UDP, ARP
 from model import init_model
 from roles import RoleTracker
 
+from roles import RoleTracker
+from live_features import LiveFeatureTracker
+
 # Single global role tracker for the live mode pipeline
 role_tracker = RoleTracker()
+
+# Single global live-feature tracker for GNN inference
+feature_tracker = LiveFeatureTracker()
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
@@ -104,6 +110,15 @@ def extract_packet_features(packet) -> Optional[Tuple[str, str, List[float]]]:
 
     features = [pkt_size, protocol, src_port, dst_port, time_of_day, tcp_flag]
     role_tracker.observe(src_ip, dst_ip, int(dst_port), int(src_port))
+    feature_tracker.observe(
+        src_ip       = src_ip,
+        dst_ip       = dst_ip,
+        pkt_size     = pkt_size,
+        protocol     = protocol,
+        src_port     = int(src_port),
+        dst_port     = int(dst_port),
+        tcp_flag_bits = int(tcp_flag),
+    )
     return src_ip, dst_ip, features
 
 # ── Graph Construction ─────────────────────────────────────────────────────────
@@ -142,8 +157,15 @@ def build_graph(flow_store: FlowStore, ip_index: IPIndex) -> Optional[Data]:
         return None
 
     num_nodes = ip_index.size
-    x = torch.zeros(num_nodes, 80)
+    # Build real feature matrix from observed traffic.
+    # IPs are sorted by ip_index order so node i corresponds to feature row i.
+    sorted_ips = sorted(ip_index.get_all().items(), key=lambda x: x[1])
+    ip_list    = [ip for ip, _ in sorted_ips]
+    feature_matrix = feature_tracker.get_all_features(ip_list)
+    x = torch.tensor(feature_matrix, dtype=torch.float)
 
+    # Trim tracker periodically to prevent memory growth
+    feature_tracker.trim(max_records_per_ip=500)
     graph = Data(
         x          = x,
         edge_index = torch.tensor(
