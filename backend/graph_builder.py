@@ -16,6 +16,10 @@ import torch
 from torch_geometric.data import Data
 from scapy.all import sniff, IP, TCP, UDP, ARP
 from model import init_model
+from roles import RoleTracker
+
+# Single global role tracker for the live mode pipeline
+role_tracker = RoleTracker()
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
@@ -99,6 +103,7 @@ def extract_packet_features(packet) -> Optional[Tuple[str, str, List[float]]]:
             tcp_flag = 4.0
 
     features = [pkt_size, protocol, src_port, dst_port, time_of_day, tcp_flag]
+    role_tracker.observe(src_ip, dst_ip, int(dst_port), int(src_port))
     return src_ip, dst_ip, features
 
 # ── Graph Construction ─────────────────────────────────────────────────────────

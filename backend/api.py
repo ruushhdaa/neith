@@ -22,7 +22,7 @@ import torch
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from graph_builder import FlowStore, IPIndex, build_graph, start_sniffing
+from graph_builder import FlowStore, IPIndex, build_graph, start_sniffing, role_tracker
 from model         import NeithBrain
 from database      import init_db, insert_alert, query_alerts
 from mitre         import classify
@@ -147,6 +147,7 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
                 "score_lower"   : lo,
                 "score_upper"   : hi,
                 "interval_width": width,
+                "role"   : role_tracker.get_role(ip),
             })
 
             if status == "suspicious":
@@ -156,6 +157,7 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
 
                 alert = {
                     "ip"         : ip,
+                    "role"       : role_tracker.get_role(ip),
                     "score"      : score,
                     "timestamp"  : ts,
                     "window"     : window_count,
@@ -168,7 +170,7 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
                 # -- Persist to SQLite ---------------------------
                 insert_alert(
                     ip         = ip,
-                    role       = None, 
+                    role       = role_tracker.get_role(ip),
                     score      = score,
                     window     = window_count,
                     timestamp  = ts,
