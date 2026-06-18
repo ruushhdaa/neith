@@ -7,6 +7,7 @@
 #      and Demo Mode.
 
 import os
+from platform import node
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -167,6 +168,7 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
                 # -- Persist to SQLite ---------------------------
                 insert_alert(
                     ip         = ip,
+                    role       = None, 
                     score      = score,
                     window     = window_count,
                     timestamp  = ts,

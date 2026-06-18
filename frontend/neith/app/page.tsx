@@ -478,12 +478,12 @@ export default function Dashboard() {
               {/* ── Table header ─────────────────────────────── */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 100px 90px 110px 120px 140px",
+                gridTemplateColumns: "1fr 110px 100px 90px 110px 120px 140px",
                 padding: "12px 24px",
                 borderBottom: "1px solid rgba(187,104,48,0.2)",
                 background: "rgba(26,46,40,0.2)",
               }}>
-                {["IP Address", "Score", "Window", "Time", "Technique", "Tactic"].map(h => (
+                {["IP Address", "Role", "Score", "Window", "Time", "Technique", "Tactic"].map(h => (
                   <span key={h} className="font-carved" style={{ fontSize: "9px", color: "#809070" }}>
                     {h}
                   </span>
@@ -504,7 +504,7 @@ export default function Dashboard() {
                     key={alert.id}
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "1fr 100px 90px 110px 120px 140px",
+                      gridTemplateColumns: "1fr 110px 100px 90px 110px 120px 140px",
                       padding: "14px 24px",
                       borderBottom: "1px solid rgba(187,104,48,0.08)",
                       borderLeft: i === 0 ? "2px solid #BB6830" : "2px solid transparent",
@@ -518,6 +518,16 @@ export default function Dashboard() {
                     <span className="font-carved" style={{ fontSize: "11px", color: "#EACEAA" }}>
                       {alert.ip}
                     </span>
+
+                    {/* Role */}
+<span className="font-carved" style={{
+  fontSize: "9px",
+  color: "#85431E",
+  letterSpacing: "1.5px",
+  textTransform: "uppercase",
+}}>
+  {alert.role || "—"}
+</span>
 
                     {/* Score */}
                     <span className="font-carved" style={{

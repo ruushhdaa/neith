@@ -218,6 +218,7 @@ def run_demo_loop(
             ts    = datetime.now().astimezone().strftime("%H:%M:%S")
             alert = {
                 "ip":         node["id"],
+                "role":       node.get("role"),
                 "score":      node["score"],
                 "timestamp":  ts,
                 "window":     window_count,
@@ -228,6 +229,7 @@ def run_demo_loop(
             new_alerts.append(alert)
             insert_alert(
                 ip         = node["id"],
+                role       = node.get("role"),
                 score      = node["score"],
                 window     = window_count,
                 timestamp  = ts,

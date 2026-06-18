@@ -37,6 +37,7 @@ export interface NeithAlert {
 export interface NeithAlertRecord {
   id:          number;
   ip:          string;
+  role:        string | null;
   score:       number;
   window:      number;
   timestamp:   string;

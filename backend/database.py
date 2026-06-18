@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS alerts (
     recorded_at TEXT    NOT NULL,
     mitre_id    TEXT,
     mitre_name  TEXT,
-    tactic      TEXT
+    tactic      TEXT,
+    role        TEXT
 );
 """
 
@@ -63,6 +64,7 @@ def insert_alert(
     mitre_id:   Optional[str] = None,
     mitre_name: Optional[str] = None,
     tactic:     Optional[str] = None,
+    role:       Optional[str] = None
 ) -> None:
     """
     Persist one alert to the database.
@@ -74,10 +76,10 @@ def insert_alert(
     try:
         conn.execute(
             """
-            INSERT INTO alerts (ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO alerts (ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic, role)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic),
+            (ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic, role),
         )
         conn.commit()
     finally:
@@ -108,7 +110,7 @@ def query_alerts(
         if since:
             rows = conn.execute(
                 """
-                SELECT id, ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic
+                SELECT id, ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic, role
                 FROM   alerts
                 WHERE  recorded_at > ?
                 ORDER  BY recorded_at DESC
@@ -119,7 +121,7 @@ def query_alerts(
         else:
             rows = conn.execute(
                 """
-                SELECT id, ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic
+                SELECT id, ip, score, window, timestamp, recorded_at, mitre_id, mitre_name, tactic, role
                 FROM   alerts
                 ORDER  BY recorded_at DESC
                 LIMIT  ?
