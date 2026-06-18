@@ -37,7 +37,7 @@ WINDOW_SECONDS    = 10
 MODEL_PATH        = "../models/neith_trained.pt"
 SCALER_PATH       = "../models/scaler.pkl"
 FEATURE_COUNT     = "../models/feature_count.txt"
-ALERT_THRESHOLD   = 0.50
+ALERT_THRESHOLD   = 0.70
 MAX_ALERT_HISTORY = 50
 MAX_DRIFT_HISTORY = 20
 DEMO_MODE         = os.environ.get("NEITH_DEMO", "0") == "1"
