@@ -8,9 +8,11 @@ const API = "http://localhost:5000/api";
 // -- Data shapes ------------------------------------------------
 
 export interface NeithNode {
-  id:              string;
-  score:           number;
-  status:          "normal" | "suspicious";
+  id: string;
+  label?: string | null;
+  role?: string | null;
+  score: number;
+  status: "normal" | "suspicious";
   score_lower?:    number;
   score_upper?:    number;
   interval_width?: number;

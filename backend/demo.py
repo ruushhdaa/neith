@@ -20,6 +20,7 @@ from typing import Dict, List, Tuple
 
 from database import insert_alert
 from mitre import classify
+from labels import get_label
 
 # -- Synthetic Network Topology -----------------------------------
 #
@@ -136,6 +137,7 @@ class DemoEngine:
             s = self._score(node)
             result.append({
                 "id":     node["ip"],
+                "label"  : get_label(node["ip"]),
                 "score":  s,
                 "status": "suspicious" if s > _ALERT_THRESHOLD else "normal",
                 "role":   node["role"],

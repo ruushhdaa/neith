@@ -27,6 +27,7 @@ from database      import init_db, insert_alert, query_alerts
 from mitre         import classify
 from conformal     import ConformalPredictor
 from adwin         import ADWIN
+from labels import get_label
 
 # -- Configuration -----------------------------------------------
 INTERFACE         = "eth0"
@@ -138,9 +139,10 @@ def pipeline_loop(flow_store, ip_index, model, scaler, in_channels):
             lo, hi, width = conformal_predictor.predict_interval(score)
 
             nodes.append({
-                "id"            : ip,
-                "score"         : score,
-                "status"        : status,
+                "id"     : ip,
+                "label"  : get_label(ip),
+                "score"  : score,
+                "status" : status,
                 "score_lower"   : lo,
                 "score_upper"   : hi,
                 "interval_width": width,

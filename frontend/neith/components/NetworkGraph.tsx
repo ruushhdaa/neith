@@ -123,15 +123,27 @@ export default function NetworkGraph({ nodes, edges, fullscreen = false }: Props
       .attr("fill", "#F8E794")
       .attr("pointer-events", "none");
 
-    // IP label below
-    nodeG.append("text")
-      .text((d: any) => d.id.split(".").slice(-2).join("."))
-      .attr("text-anchor", "middle")
-      .attr("dy", 30)
-      .attr("font-size", "9px")
-      .attr("font-family", "Cinzel, serif")
-      .attr("fill", "#809070")
-      .attr("pointer-events", "none");
+    // IP label below (last two octets)
+nodeG.append("text")
+  .text((d: any) => d.id.split(".").slice(-2).join("."))
+  .attr("text-anchor", "middle")
+  .attr("dy", 28)
+  .attr("font-size", "9px")
+  .attr("font-family", "Cinzel, serif")
+  .attr("fill", "#809070")
+  .attr("pointer-events", "none");
+
+// Role label (smaller, below IP) — only if role exists
+nodeG.append("text")
+  .text((d: any) => d.role || d.label || "")
+  .attr("text-anchor", "middle")
+  .attr("dy", 40)
+  .attr("font-size", "8px")
+  .attr("font-family", "Cinzel, serif")
+  .attr("fill", "#85431E")
+  .attr("letter-spacing", "1.5px")
+  .attr("text-transform", "uppercase")
+  .attr("pointer-events", "none");
 
     // Connection count label above
     nodeG.append("text")
