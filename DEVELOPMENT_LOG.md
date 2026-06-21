@@ -116,3 +116,4 @@
 - [2026-06-20T14:30:28] test(adwin): verify drift detection event log trigger
 - [2026-06-20T16:43:45] test(adwin): verify drift detection event log trigger
 - [2026-06-20T18:53:55] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-06-21T17:28:31] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
