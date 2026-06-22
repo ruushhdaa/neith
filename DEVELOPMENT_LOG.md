@@ -124,3 +124,4 @@
 - [2026-06-22T20:41:29] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-06-22T11:17:21] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-06-22T14:27:00] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-06-22T12:11:50] feat(features): add reverse DNS resolution fallback
