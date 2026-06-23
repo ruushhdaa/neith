@@ -128,3 +128,4 @@
 - [2026-06-22T12:25:37] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-06-23T17:53:09] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-06-23T14:23:33] docs(conformal): document 90% confidence interval calculations
+- [2026-06-23T20:38:47] feat(features): add reverse DNS resolution fallback
