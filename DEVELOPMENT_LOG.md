@@ -130,3 +130,4 @@
 - [2026-06-23T14:23:33] docs(conformal): document 90% confidence interval calculations
 - [2026-06-23T20:38:47] feat(features): add reverse DNS resolution fallback
 - [2026-06-23T21:45:19] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-06-24T11:29:11] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
