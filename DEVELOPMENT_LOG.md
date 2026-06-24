@@ -134,3 +134,4 @@
 - [2026-06-24T12:09:28] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-06-24T19:53:02] style(frontend): update D3.js network graph node colors
 - [2026-06-24T21:55:47] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-06-24T19:55:09] docs(conformal): document 90% confidence interval calculations
