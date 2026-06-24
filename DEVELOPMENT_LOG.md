@@ -133,3 +133,4 @@
 - [2026-06-24T11:29:11] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-06-24T12:09:28] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-06-24T19:53:02] style(frontend): update D3.js network graph node colors
+- [2026-06-24T21:55:47] refactor(scapy): optimize per-IP feature vector scaling
