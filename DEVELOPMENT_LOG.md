@@ -137,3 +137,4 @@
 - [2026-06-24T19:55:09] docs(conformal): document 90% confidence interval calculations
 - [2026-06-27T10:48:38] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-06-27T10:28:04] style(frontend): update D3.js network graph node colors
+- [2026-06-27T12:20:39] docs(mitre): update heuristic mapping for T1046 and T1071
