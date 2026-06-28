@@ -138,3 +138,4 @@
 - [2026-06-27T10:48:38] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-06-27T10:28:04] style(frontend): update D3.js network graph node colors
 - [2026-06-27T12:20:39] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-06-28T14:23:41] refactor(scapy): optimize per-IP feature vector scaling
