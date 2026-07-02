@@ -151,3 +151,4 @@
 - [2026-07-01T12:10:47] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-07-01T22:53:03] docs(conformal): document 90% confidence interval calculations
 - [2026-07-01T21:27:48] docs(conformal): document 90% confidence interval calculations
+- [2026-07-02T13:52:26] feat(features): add reverse DNS resolution fallback
