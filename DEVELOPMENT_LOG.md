@@ -153,3 +153,4 @@
 - [2026-07-01T21:27:48] docs(conformal): document 90% confidence interval calculations
 - [2026-07-02T13:52:26] feat(features): add reverse DNS resolution fallback
 - [2026-07-02T13:51:34] style(frontend): update D3.js network graph node colors
+- [2026-07-02T11:12:24] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
