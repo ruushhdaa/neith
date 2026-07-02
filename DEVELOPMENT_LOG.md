@@ -154,3 +154,4 @@
 - [2026-07-02T13:52:26] feat(features): add reverse DNS resolution fallback
 - [2026-07-02T13:51:34] style(frontend): update D3.js network graph node colors
 - [2026-07-02T11:12:24] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
+- [2026-07-02T10:02:40] docs(mitre): update heuristic mapping for T1046 and T1071
