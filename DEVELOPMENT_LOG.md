@@ -160,3 +160,4 @@
 - [2026-07-03T22:13:42] style(frontend): update D3.js network graph node colors
 - [2026-07-04T11:50:51] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-07-04T15:14:31] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-07-04T19:38:07] docs(mitre): update heuristic mapping for T1046 and T1071
