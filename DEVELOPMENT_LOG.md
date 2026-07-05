@@ -161,3 +161,4 @@
 - [2026-07-04T11:50:51] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-07-04T15:14:31] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-07-04T19:38:07] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-07-05T18:44:04] docs(mitre): update heuristic mapping for T1046 and T1071
