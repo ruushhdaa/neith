@@ -166,3 +166,4 @@
 - [2026-07-05T20:17:47] style(frontend): update D3.js network graph node colors
 - [2026-07-06T13:11:02] feat(features): add reverse DNS resolution fallback
 - [2026-07-06T10:09:40] docs(conformal): document 90% confidence interval calculations
+- [2026-07-06T22:09:47] docs(mitre): update heuristic mapping for T1046 and T1071
