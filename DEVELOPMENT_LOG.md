@@ -168,3 +168,4 @@
 - [2026-07-06T10:09:40] docs(conformal): document 90% confidence interval calculations
 - [2026-07-06T22:09:47] docs(mitre): update heuristic mapping for T1046 and T1071
 - [2026-07-08T19:47:37] docs(mitre): update heuristic mapping for T1046 and T1071
+- [2026-07-08T19:08:43] test(adwin): verify drift detection event log trigger
