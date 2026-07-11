@@ -174,3 +174,4 @@
 - [2026-07-10T22:27:13] refactor(scapy): optimize per-IP feature vector scaling
 - [2026-07-10T15:07:12] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-07-11T13:06:29] refactor(scapy): optimize per-IP feature vector scaling
+- [2026-07-11T10:17:09] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
