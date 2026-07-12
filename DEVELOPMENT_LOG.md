@@ -177,3 +177,4 @@
 - [2026-07-11T10:17:09] refactor(gnn): tune GraphSAGE dropout and BCE loss parameters
 - [2026-07-11T17:01:26] test(adwin): verify drift detection event log trigger
 - [2026-07-12T19:18:16] docs(conformal): document 90% confidence interval calculations
+- [2026-07-12T10:56:11] docs(conformal): document 90% confidence interval calculations
